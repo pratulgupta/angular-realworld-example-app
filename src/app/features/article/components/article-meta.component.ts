@@ -19,6 +19,7 @@ import { DefaultImagePipe } from '../../../shared/pipes/default-image.pipe';
         <span class="date">
           {{ article.createdAt | date: 'longDate' }}
         </span>
+        <span class="reading-time">&middot; {{ readingTime }} min read</span>
       </div>
 
       <ng-content></ng-content>
@@ -29,4 +30,16 @@ import { DefaultImagePipe } from '../../../shared/pipes/default-image.pipe';
 })
 export class ArticleMetaComponent {
   @Input() article!: Article;
+
+  get readingTime(): number {
+    const body = this.article?.body ?? '';
+    const text = body
+      .replace(/```[\s\S]*?```/g, ' ')
+      .replace(/`[^`]*`/g, ' ')
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+      .replace(/[#*_~>|`[\]()!]/g, ' ');
+    const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.ceil(wordCount / 200));
+  }
 }
