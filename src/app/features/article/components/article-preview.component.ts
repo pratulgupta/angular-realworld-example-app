@@ -4,6 +4,7 @@ import { ArticleMetaComponent } from './article-meta.component';
 import { RouterLink } from '@angular/router';
 
 import { FavoriteButtonComponent } from './favorite-button.component';
+import { ReadTimePipe } from '../../../shared/pipes/read-time.pipe';
 
 @Component({
   selector: 'app-article-preview',
@@ -26,10 +27,14 @@ import { FavoriteButtonComponent } from './favorite-button.component';
             </li>
           }
         </ul>
+        @let rt = article().body | readTime;
+        @if (rt !== null) {
+          <span>&middot; {{ rt }} min read</span>
+        }
       </a>
     </div>
   `,
-  imports: [ArticleMetaComponent, FavoriteButtonComponent, RouterLink],
+  imports: [ArticleMetaComponent, FavoriteButtonComponent, RouterLink, ReadTimePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticlePreviewComponent {

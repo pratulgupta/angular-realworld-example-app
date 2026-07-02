@@ -13,7 +13,7 @@
       <div class="container">
         <h1>{{ a.title }}</h1>
 
-        <app-article-meta [article]="a">
+        <app-article-meta [article]="a" [showReadTime]="true">
           @if (canModify()) {
             <span>
               <a class="btn btn-sm btn-outline-secondary" [routerLink]="['/editor', a.slug]">
@@ -60,7 +60,7 @@
       <hr />
 
       <div class="article-actions">
-        <app-article-meta [article]="a">
+        <app-article-meta [article]="a" [showReadTime]="true">
           @if (canModify()) {
             <span>
               <a class="btn btn-sm btn-outline-secondary" [routerLink]="['/editor', a.slug]">
