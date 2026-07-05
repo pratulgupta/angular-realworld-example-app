@@ -3,6 +3,7 @@ import { Article } from '../models/article.model';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { DefaultImagePipe } from '../../../shared/pipes/default-image.pipe';
+import { ReadTimePipe } from '../../../shared/pipes/read-time.pipe';
 
 @Component({
   selector: 'app-article-meta',
@@ -19,13 +20,14 @@ import { DefaultImagePipe } from '../../../shared/pipes/default-image.pipe';
         <span class="date">
           {{ article.createdAt | date: 'longDate' }}
         </span>
+        <span class="read-time"> · {{ article.body | readTime }} min read </span>
       </div>
 
       <ng-content></ng-content>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, DatePipe, DefaultImagePipe],
+  imports: [RouterLink, DatePipe, DefaultImagePipe, ReadTimePipe],
 })
 export class ArticleMetaComponent {
   @Input() article!: Article;
