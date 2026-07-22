@@ -71,7 +71,10 @@
               "buildTarget": "angular-conduit:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "allowedHosts": [".e2b.app"]
+          }
         },
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n",
