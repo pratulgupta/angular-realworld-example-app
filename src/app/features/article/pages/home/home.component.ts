@@ -5,11 +5,15 @@ import { ArticleListConfig } from '../../models/article-list-config.model';
 import { NgClass } from '@angular/common';
 import { ArticleListComponent } from '../../components/article-list.component';
 import { combineLatest } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { UserService } from '../../../../core/auth/services/user.service';
 import { RxLet } from '@rx-angular/template/let';
 import { IfAuthenticatedDirective } from '../../../../core/auth/if-authenticated.directive';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+export function sortTagsAlphabetically(tags: string[]): string[] {
+  return [...tags].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+}
 
 @Component({
   selector: 'app-home-page',
@@ -27,7 +31,10 @@ export default class HomeComponent implements OnInit {
   currentPage = signal(1);
   tags$ = inject(TagsService)
     .getAll()
-    .pipe(tap(() => this.tagsLoaded.set(true)));
+    .pipe(
+      map(sortTagsAlphabetically),
+      tap(() => this.tagsLoaded.set(true)),
+    );
   tagsLoaded = signal(false);
   isFollowingFeed = signal(false);
   destroyRef = inject(DestroyRef);
